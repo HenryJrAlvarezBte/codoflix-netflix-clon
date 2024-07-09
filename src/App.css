@@ -1,0 +1,80 @@
+body {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: scroll;
+  padding: 20px;
+}
+
+.carousel img {
+  height: 300px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.carousel img:hover {
+  transform: scale(1.05);
+}
+
+.movie-details {
+  padding: 20px;
+}
+
+.comments-and-ratings {
+  margin-top: 20px;
+}
+
+.comments-and-ratings input,
+.comments-and-ratings textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.comments-and-ratings button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4500;
+  color: white;
+  cursor: pointer;
+}
+
+.comments-list {
+  margin-top: 20px;
+}
+
+.comment {
+  background-color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto; 
+  gap: 10px;
+  padding-bottom: 10px; 
+}
+
+.carousel img {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+}
