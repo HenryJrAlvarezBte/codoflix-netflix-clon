@@ -63,7 +63,7 @@ const MovieDetailsPage = () => {
   };
 
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   const { title, overview, poster_path, genres, release_date, production_companies } = movieDetails;
@@ -93,7 +93,7 @@ const MovieDetailsPage = () => {
           </div>
         </div>
         <div className="rating">
-          <h3>Rate this movie:</h3>
+          <h3>Valora esta pelicula:</h3>
           <div className="stars">
             <button className={`rating-button ${rating >= 1 ? 'active' : ''}`} onClick={() => handleRating(1)}>★</button>
             <button className={`rating-button ${rating >= 2 ? 'active' : ''}`} onClick={() => handleRating(2)}>★</button>
@@ -102,19 +102,19 @@ const MovieDetailsPage = () => {
             <button className={`rating-button ${rating >= 5 ? 'active' : ''}`} onClick={() => handleRating(5)}>★</button>
           </div>
           <div className="average-rating">
-            <strong>Average Rating:</strong> {averageRating.toFixed(1)} ({votes.length} votes)
+            <strong>Rating Promedio:</strong> {averageRating.toFixed(1)} ({votes.length} votes)
           </div>
         </div>
         <div className="comments">
-          <h3>Comments:</h3>
+          <h3>Comentarios:</h3>
           <form onSubmit={handleCommentSubmit}>
             <textarea 
               value={commentText} 
               onChange={(e) => setCommentText(e.target.value)} 
-              placeholder="Add your comment here..." 
+              placeholder="Agrega tu comentario..." 
               required 
             />
-            <button type="submit">Submit</button>
+            <button type="submit">Enviar</button>
           </form>
           <div className="comment-list">
             {comments.map((comment, index) => (
