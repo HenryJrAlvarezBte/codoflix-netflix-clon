@@ -102,7 +102,7 @@ const MovieDetailsPage = () => {
             <button className={`rating-button ${rating >= 5 ? 'active' : ''}`} onClick={() => handleRating(5)}>★</button>
           </div>
           <div className="average-rating">
-            <strong>Rating Promedio:</strong> {averageRating.toFixed(1)} ({votes.length} votes)
+            <strong>Rating Promedio:</strong> {averageRating.toFixed(1)} ({votes.length} votos)
           </div>
         </div>
         <div className="comments">
