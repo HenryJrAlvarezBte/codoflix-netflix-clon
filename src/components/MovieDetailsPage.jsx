@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './MovieDetailsPage.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const MovieDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [movieDetails, setMovieDetails] = useState(null);
   const [rating, setRating] = useState(0);
   const [votes, setVotes] = useState([]);
@@ -31,21 +34,17 @@ const MovieDetailsPage = () => {
     const storedComments = JSON.parse(localStorage.getItem(`movieComments_${id}`)) || [];
     setComments(storedComments);
   }, [id]);
-  
-    const handleRating = (stars) => {
+
+  const handleRating = (stars) => {
     setRating(stars);
-   
     const newVotes = [...votes, stars];
     setVotes(newVotes);
-  
     localStorage.setItem(`movieVotes_${id}`, JSON.stringify(newVotes));
-    
     console.log(`Usuario seleccionó ${stars} estrellas para la película con ID ${id}`);
   };
 
   const calculateAverageRating = () => {
     if (votes.length === 0) return 0;
-
     const sum = votes.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     return sum / votes.length;
   };
@@ -70,58 +69,63 @@ const MovieDetailsPage = () => {
   const averageRating = calculateAverageRating();
 
   return (
-    <div className="movie-details">
-      <div className="poster">
-        <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
-      </div>
-      <div className="details">
-        <h2>{title}</h2>
-        <p>{overview}</p>
-        <div className="additional-info">
-          <div>
-            <strong>Generos:</strong> {genres.map((genre, index) => (
-              <span key={genre.id}>{genre.name}{index !== genres.length - 1 ? ', ' : ''}</span>
-            ))}
-          </div>
-          <div>
-            <strong>Fecha de lanzamiento:</strong> {release_date}
-          </div>
-          <div>
-            <strong>Compañias productoras:</strong> {production_companies.map((company, index) => (
-              <span key={company.id}>{company.name}{index !== production_companies.length - 1 ? ', ' : ''}</span>
-            ))}
-          </div>
+    <div className="movie-details-page">
+      <button className="back-button" onClick={() => navigate('/')}>
+        <FontAwesomeIcon icon={faArrowLeft} /> Volver
+      </button>
+      <div className="movie-details">
+        <div className="poster">
+          <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
         </div>
-        <div className="rating">
-          <h3>Valora esta pelicula:</h3>
-          <div className="stars">
-            <button className={`rating-button ${rating >= 1 ? 'active' : ''}`} onClick={() => handleRating(1)}>★</button>
-            <button className={`rating-button ${rating >= 2 ? 'active' : ''}`} onClick={() => handleRating(2)}>★</button>
-            <button className={`rating-button ${rating >= 3 ? 'active' : ''}`} onClick={() => handleRating(3)}>★</button>
-            <button className={`rating-button ${rating >= 4 ? 'active' : ''}`} onClick={() => handleRating(4)}>★</button>
-            <button className={`rating-button ${rating >= 5 ? 'active' : ''}`} onClick={() => handleRating(5)}>★</button>
+        <div className="details">
+          <h2>{title}</h2>
+          <p>{overview}</p>
+          <div className="additional-info">
+            <div>
+              <strong>Generos:</strong> {genres.map((genre, index) => (
+                <span key={genre.id}>{genre.name}{index !== genres.length - 1 ? ', ' : ''}</span>
+              ))}
+            </div>
+            <div>
+              <strong>Fecha de lanzamiento:</strong> {release_date}
+            </div>
+            <div>
+              <strong>Compañias productoras:</strong> {production_companies.map((company, index) => (
+                <span key={company.id}>{company.name}{index !== production_companies.length - 1 ? ', ' : ''}</span>
+              ))}
+            </div>
           </div>
-          <div className="average-rating">
-            <strong>Rating Promedio:</strong> {averageRating.toFixed(1)} ({votes.length} votos)
+          <div className="rating">
+            <h3>Valora esta pelicula:</h3>
+            <div className="stars">
+              <button className={`rating-button ${rating >= 1 ? 'active' : ''}`} onClick={() => handleRating(1)}>★</button>
+              <button className={`rating-button ${rating >= 2 ? 'active' : ''}`} onClick={() => handleRating(2)}>★</button>
+              <button className={`rating-button ${rating >= 3 ? 'active' : ''}`} onClick={() => handleRating(3)}>★</button>
+              <button className={`rating-button ${rating >= 4 ? 'active' : ''}`} onClick={() => handleRating(4)}>★</button>
+              <button className={`rating-button ${rating >= 5 ? 'active' : ''}`} onClick={() => handleRating(5)}>★</button>
+            </div>
+            <div className="average-rating">
+              <strong>Rating Promedio:</strong> {averageRating.toFixed(1)} ({votes.length} votos)
+            </div>
           </div>
-        </div>
-        <div className="comments">
-          <h3>Comentarios:</h3>
-          <form onSubmit={handleCommentSubmit}>
-            <textarea 
-              value={commentText} 
-              onChange={(e) => setCommentText(e.target.value)} 
-              placeholder="Agrega tu comentario..." 
-              required 
-            />
-            <button type="submit">Enviar</button>
-          </form>
-          <div className="comment-list">
-            {comments.map((comment, index) => (
-              <div key={index} className="comment">
-                <strong>{comment.username}:</strong> {comment.text}
-              </div>
-            ))}
+          <div className="comments">
+            <h3>Comentarios:</h3>
+            <form onSubmit={handleCommentSubmit}>
+              <textarea 
+                value={commentText} 
+                onChange={(e) => setCommentText(e.target.value)} 
+                placeholder="Agrega tu comentario..." 
+                required 
+              />
+              <button type="submit">Enviar</button>
+            </form>
+            <div className="comment-list">
+              {comments.map((comment, index) => (
+                <div key={index} className="comment">
+                  <strong>{comment.username}:</strong> {comment.text}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
